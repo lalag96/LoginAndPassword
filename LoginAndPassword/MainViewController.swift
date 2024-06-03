@@ -12,20 +12,12 @@ class MainViewController: UIViewController {
     @IBOutlet var userNameTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
     
-    let userName = "Vlad"
-    let password = "123"
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        userNameTF.delegate = self
-        passwordTF.delegate = self
-      
-    }
+    private let userName = "Vlad"
+    private let password = "123"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let secondVC = segue.destination as? SecondViewController else {return}
-        secondVC.welcomeName = userNameTF.text ?? ""
+        secondVC.welcomeName = userName
     }
     
     @IBAction func loginButton() {
@@ -52,7 +44,7 @@ class MainViewController: UIViewController {
     
 }
 
-// MARK: - AlertController
+// MARK: - Alert Controller
 
 extension MainViewController {
     func alert(title: String, message: String) {
@@ -65,11 +57,21 @@ extension MainViewController {
 }
 
 
-// MARK: - UITextField
+// MARK: - UITextFieldDelegate
 
 extension MainViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        passwordTF.becomeFirstResponder()
+        if textField == userNameTF {
+            passwordTF.becomeFirstResponder()
+        } else {
+            loginButton()
+            performSegue(withIdentifier: "showSecondVC", sender: nil)
+        }
+        return true
     }
 }
