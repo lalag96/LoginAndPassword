@@ -36,11 +36,6 @@ class SecondViewController: UIViewController {
 
     }
     
-  
-    @IBAction func logOufButton(_ sender: UIButton) {
-        dismiss(animated: true)
-    }
-    
 }
 
 extension UIView {
